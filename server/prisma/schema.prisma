@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String // NUNCA a senha pura: guarde o hash do argon2
+  createdAt    DateTime @default(now())
+
+  todos         Todo[]
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  tokenHash String    @unique // guarde o hash do token, não o token em si
+  userId    String
+  expiresAt DateTime
+  revokedAt DateTime? // preenchido no logout ou quando o token é rotacionado
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Todo {
+  id        String   @id @default(uuid())
+  title     String
+  done      Boolean  @default(false)
+  userId    String // 👈 é isso que faz cada tarefa pertencer a um usuário
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

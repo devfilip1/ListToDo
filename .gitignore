@@ -1,0 +1,43 @@
+# dependências
+node_modules/
+
+# variáveis de ambiente: contêm o JWT_SECRET e o IP da sua rede
+.env
+.env.local
+.env*.local
+
+# banco de dados local
+*.db
+*.db-journal
+
+# Prisma Client gerado (recriado por `npx prisma generate`)
+server/src/generated/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.metro-health-check*
+
+# build nativo (gerado pelo Expo, nunca editado à mão)
+mobile/ios/
+mobile/android/
+
+# chaves de assinatura de app
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+
+# logs e caches
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.tsbuildinfo
+
+# sistema operacional
+.DS_Store
+Thumbs.db
