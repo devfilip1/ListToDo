@@ -27,14 +27,14 @@ export function buildApp() {
   // Erros de validação do zod viram 400 com a mensagem; o resto vira 500 genérico.
   app.setErrorHandler<FastifyError>((error, request, reply) => {
     if (error instanceof ZodError) {
-      return reply.code(400).send({ error: error.issues[0]?.message ?? 'Dados inválidos' });
+      return reply.code(400).send({ error: error.issues[0]?.message ?? 'Invalid request data' });
     }
     // Erros do próprio Fastify (ex: JSON malformado) já vêm com um status 4xx.
     if (error.statusCode && error.statusCode < 500) {
       return reply.code(error.statusCode).send({ error: error.message });
     }
     request.log.error(error);
-    return reply.code(500).send({ error: 'Erro interno' });
+    return reply.code(500).send({ error: 'Internal error' });
   });
 
   return app;

@@ -5,8 +5,8 @@ import { prisma } from '../db';
 import { hashToken, issueTokens } from '../lib/tokens';
 
 const credentialsSchema = z.object({
-  email: z.string().trim().toLowerCase().pipe(z.email('Email inválido')),
-  password: z.string().min(6, 'A senha precisa ter pelo menos 6 caracteres'),
+  email: z.string().trim().toLowerCase().pipe(z.email('Invalid email')),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
 const refreshSchema = z.object({
@@ -22,7 +22,7 @@ export async function authRoutes(app: FastifyInstance) {
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
-      return reply.code(409).send({ error: 'Este email já está cadastrado' });
+      return reply.code(409).send({ error: 'This email is already registered' });
     }
 
     const user = await prisma.user.create({
@@ -39,7 +39,7 @@ export async function authRoutes(app: FastifyInstance) {
     const passwordOk = await argon2.verify(user?.passwordHash ?? (await dummyHash), password);
 
     if (!user || !passwordOk) {
-      return reply.code(401).send({ error: 'Email ou senha inválidos' });
+      return reply.code(401).send({ error: 'Invalid email or password' });
     }
 
     return issueTokens(user);
@@ -54,7 +54,7 @@ export async function authRoutes(app: FastifyInstance) {
     });
 
     if (!stored || stored.expiresAt < new Date()) {
-      return reply.code(401).send({ error: 'Sessão expirada' });
+      return reply.code(401).send({ error: 'Session expired' });
     }
 
     // Revoga o token atual. O filtro `revokedAt: null` garante que só UM request consegue usá-lo.
@@ -69,7 +69,7 @@ export async function authRoutes(app: FastifyInstance) {
         where: { userId: stored.userId, revokedAt: null },
         data: { revokedAt: new Date() },
       });
-      return reply.code(401).send({ error: 'Sessão expirada' });
+      return reply.code(401).send({ error: 'Session expired' });
     }
 
     return issueTokens(stored.user);

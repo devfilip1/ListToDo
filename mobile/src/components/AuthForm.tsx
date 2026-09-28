@@ -22,7 +22,7 @@ export function AuthForm({ title, subtitle, submitLabel, onSubmit, footer }: Pro
 
   async function handleSubmit() {
     if (!email.trim() || !password) {
-      setError('Preencha email e senha');
+      setError('Fill in your email and password');
       return;
     }
     setError(null);
@@ -30,7 +30,7 @@ export function AuthForm({ title, subtitle, submitLabel, onSubmit, footer }: Pro
     try {
       await onSubmit(email.trim().toLowerCase(), password);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Algo deu errado');
+      setError(e instanceof Error ? e.message : 'Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -52,17 +52,17 @@ export function AuthForm({ title, subtitle, submitLabel, onSubmit, footer }: Pro
             label="Email"
             value={email}
             onChangeText={setEmail}
-            placeholder="voce@email.com"
+            placeholder="you@email.com"
             autoCapitalize="none"
             autoComplete="email"
             keyboardType="email-address"
             textContentType="emailAddress"
           />
           <TextField
-            label="Senha"
+            label="Password"
             value={password}
             onChangeText={setPassword}
-            placeholder="Mínimo 6 caracteres"
+            placeholder="At least 6 characters"
             secureTextEntry
             autoComplete="password"
             textContentType="password"

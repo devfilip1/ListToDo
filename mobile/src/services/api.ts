@@ -56,7 +56,7 @@ async function request<T>(method: string, path: string, body?: unknown, token?: 
 
     const data = await response.json().catch(() => null);
     if (!response.ok) {
-        throw new ApiError(response.status, data?.error ?? 'Erro inesperado');
+        throw new ApiError(response.status, data?.error ?? 'Unexpected error');
     }
     return data as T;
 }
@@ -108,7 +108,7 @@ export async function authRequest<T>(method: string, path: string, body?: unknow
     const user = await refreshSession();
     if (!user) {
         onSessionExpired?.();
-        throw new ApiError(401, 'Sua sessão expirou, entre novamente');
+        throw new ApiError(401, 'Your session expired, please sign in again');
     }
 
     return request<T>(method, path, body, accessToken);

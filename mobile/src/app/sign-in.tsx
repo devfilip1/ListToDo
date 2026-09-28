@@ -9,15 +9,15 @@ export default function SignInScreen() {
 
   return (
     <AuthForm
-      title="Entrar"
-      subtitle="Acesse suas tarefas"
-      submitLabel="Entrar"
+      title="Sign in"
+      subtitle="Access your tasks"
+      submitLabel="Sign in"
       onSubmit={signIn}
       footer={
         <>
-          <Text style={styles.muted}>Não tem conta?</Text>
+          <Text style={styles.muted}>Don&apos;t have an account?</Text>
           <Link href="/sign-up" replace style={styles.link}>
-            Cadastre-se
+            Sign up
           </Link>
         </>
       }

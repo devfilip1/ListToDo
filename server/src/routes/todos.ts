@@ -50,7 +50,7 @@ export async function todoRoutes(app: FastifyInstance) {
     });
 
     if (count === 0) {
-      return reply.code(404).send({ error: 'Tarefa não encontrada' });
+      return reply.code(404).send({ error: 'Task not found' });
     }
     return reply.code(204).send();
   });
@@ -63,7 +63,7 @@ export async function todoRoutes(app: FastifyInstance) {
     });
 
     if (count === 0) {
-      return reply.code(404).send({ error: 'Tarefa não encontrada' });
+      return reply.code(404).send({ error: 'Task not found' });
     }
     return reply.code(204).send();
   });

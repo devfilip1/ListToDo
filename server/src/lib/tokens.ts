@@ -23,7 +23,7 @@ export async function verifyAccessToken(token: string): Promise<TokenUser> {
     const { payload } = await jwtVerify(token, secret, { algorithms: ['HS256'] })
 
     if (typeof payload.sub !== 'string' || typeof payload.email !== 'string') {
-        throw new Error('Token sem os dados esperados')
+        throw new Error('Token is missing the expected fields')
     }
 
     return { id: payload.sub, email: payload.email }

@@ -11,7 +11,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
   const header = request.headers.authorization;
 
   if (!header?.startsWith('Bearer ')) {
-    return reply.code(401).send({ error: 'Não autenticado' });
+    return reply.code(401).send({ error: 'Not authenticated' });
   }
 
   const token = header.slice('Bearer '.length);
@@ -19,6 +19,6 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
   try {
     request.user = await verifyAccessToken(token);
   } catch {
-    return reply.code(401).send({ error: 'Não autenticado' });
+    return reply.code(401).send({ error: 'Not authenticated' });
   }
 }

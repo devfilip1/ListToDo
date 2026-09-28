@@ -27,7 +27,7 @@ export default function TodosScreen() {
       setError(null);
       setTodos(await listTodos());
     } catch {
-      setError('Não foi possível carregar as tarefas');
+      setError('Could not load your tasks');
     }
   }, []);
 
@@ -49,7 +49,7 @@ export default function TodosScreen() {
       const todo = await createTodo(title);
       setTodos((current) => [todo, ...current]);
     } catch {
-      setError('Não foi possível criar a tarefa');
+      setError('Could not create the task');
     }
   }
 
@@ -60,7 +60,7 @@ export default function TodosScreen() {
       await updateTodo(todo.id, !todo.done);
     } catch {
       setTodos((current) => current.map((t) => (t.id === todo.id ? todo : t)));
-      setError('Não foi possível atualizar a tarefa');
+      setError('Could not update the task');
     }
   }
 
@@ -71,7 +71,7 @@ export default function TodosScreen() {
       await deleteTodo(todo.id);
     } catch {
       setTodos(previous);
-      setError('Não foi possível apagar a tarefa');
+      setError('Could not delete the task');
     }
   }
 
@@ -81,13 +81,13 @@ export default function TodosScreen() {
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <View style={styles.headerText}>
-          <Text style={styles.greeting}>Minhas tarefas</Text>
+          <Text style={styles.greeting}>My tasks</Text>
           <Text style={styles.email} numberOfLines={1}>
             {user?.email}
           </Text>
         </View>
         <Pressable onPress={signOut} style={styles.logout} hitSlop={8}>
-          <Text style={styles.logoutText}>Sair</Text>
+          <Text style={styles.logoutText}>Log out</Text>
         </Pressable>
       </View>
 
@@ -96,7 +96,7 @@ export default function TodosScreen() {
           style={styles.input}
           value={newTitle}
           onChangeText={setNewTitle}
-          placeholder="Nova tarefa..."
+          placeholder="New task..."
           placeholderTextColor={colors.muted}
           onSubmitEditing={handleAdd}
           returnKeyType="done"
@@ -122,11 +122,11 @@ export default function TodosScreen() {
           ListHeaderComponent={
             todos.length > 0 ? (
               <Text style={styles.counter}>
-                {pending} pendente{pending === 1 ? '' : 's'} de {todos.length}
+                {pending} of {todos.length} remaining
               </Text>
             ) : null
           }
-          ListEmptyComponent={<Text style={styles.empty}>Nenhuma tarefa ainda. Crie a primeira!</Text>}
+          ListEmptyComponent={<Text style={styles.empty}>No tasks yet. Create your first one!</Text>}
           renderItem={({ item }) => (
             <View style={styles.item}>
               <Pressable style={styles.itemMain} onPress={() => handleToggle(item)}>
@@ -136,7 +136,7 @@ export default function TodosScreen() {
                 <Text style={[styles.itemTitle, item.done && styles.itemTitleDone]}>{item.title}</Text>
               </Pressable>
               <Pressable onPress={() => handleDelete(item)} hitSlop={8}>
-                <Text style={styles.delete}>Apagar</Text>
+                <Text style={styles.delete}>Delete</Text>
               </Pressable>
             </View>
           )}
